@@ -1,0 +1,37 @@
+:root{
+	--bg-1: #0f172a;
+	--bg-2: #071024;
+	--muted: #9aa4b2;
+	--accent: #6ee7b7;
+	--accent-2: #60a5fa;
+	--glass: rgba(255,255,255,0.03);
+	--radius: 14px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Inter, 'Segoe UI', Roboto, system-ui, -apple-system, 'Helvetica Neue', Arial;background:linear-gradient(135deg,var(--bg-1),var(--bg-2));color:#e6eef8;display:flex;align-items:center;justify-content:center;padding:36px}
+
+.site-hero{width:100%;max-width:980px}
+.hero-inner{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:36px 44px;box-shadow:0 14px 50px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.04);backdrop-filter: blur(6px)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-text{display:flex;flex-direction:column}
+.brand-name{font-weight:700;color:#fff}
+.brand-tag{font-size:0.85rem;color:var(--muted)}
+
+.hero-title{margin:18px 0 8px 0;font-size:2rem;line-height:1.05}
+.hero-sub{margin:0 0 18px 0;color:var(--muted);max-width:70%}
+
+.home-nav{display:flex;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border-radius:10px;text-decoration:none;border:1px solid transparent;background:transparent;color:var(--accent);cursor:pointer;font-weight:600}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#04202a;border:none;box-shadow:0 12px 28px rgba(96,165,250,0.08)}
+.btn:hover{transform:translateY(-3px)}
+
+@media (max-width:720px){
+	.hero-inner{padding:20px}
+	.hero-title{font-size:1.45rem}
+	.hero-sub{max-width:100%}
+	.home-nav{flex-direction:column}
+	.btn{width:100%}
+}
+
