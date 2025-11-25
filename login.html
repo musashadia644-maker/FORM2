@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="login.css">
+    <title>Log in</title>
+</head>
+<body>
+    <main class="login-wrapper">
+        <form id="loginForm" class="login-card" novalidate>
+            <h2>Sign in</h2>
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="username">
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" required autocomplete="current-password">
+
+            <label class="checkbox">
+                <input id="remember" name="remember" type="checkbox">
+                Remember me
+            </label>
+
+            <div class="form-row">
+                <button type="submit" class="btn primary">Log in</button>
+                <a class="btn link" href="signup.html">Create account</a>
+            </div>
+
+            <div id="loginError" class="form-error" aria-live="polite"></div>
+        </form>
+    </main>
+
+    <script>
+    (function(){
+        const form = document.getElementById('loginForm');
+        const error = document.getElementById('loginError');
+        const submitBtn = form.querySelector('button[type="submit"]');
+
+        function setLoading(on){
+            submitBtn.disabled = on;
+            submitBtn.textContent = on ? 'Signing in...' : 'Log in';
+        }
+
+        form.addEventListener('submit', async function(e){
+            e.preventDefault();
+            error.textContent = '';
+
+            if(!form.checkValidity()){
+                error.textContent = 'Please enter a valid email and password.';
+                return;
+            }
+
+            const payload = {
+                email: form.email.value.trim(),
+                password: form.password.value,
+                remember: !!form.remember.checked
+            };
+
+            setLoading(true);
+            try{
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                let body = null;
+                try{ body = await res.json(); } catch(_) { /* ignore parse errors */ }
+
+                if(!res.ok){
+                    error.textContent = body && body.message ? body.message : 'Login failed. Please try again.';
+                    submitBtn.focus();
+                    return;
+                }
+
+                if(body && body.success){
+                    // successful login: redirect if server provided URL, otherwise reload
+                    window.location.href = body.redirect || '/';
+                    return;
+                }
+
+                error.textContent = (body && body.message) ? body.message : 'Invalid credentials.';
+                submitBtn.focus();
+            } catch(err){
+                console.error(err);
+                error.textContent = 'Network error — please try again.';
+            } finally{
+                setLoading(false);
+            }
+        });
+    })();
+    </script>
+</body>
+</html>

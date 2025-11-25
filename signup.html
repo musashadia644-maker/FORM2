@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="signup.css">
+    <title>Sign Up</title>
+</head>
+<body>
+    <main class="signup-wrapper">
+        <form id="signupForm" class="signup-card" novalidate>
+            <h2>Create Account</h2>
+
+            <label for="firstName">First name</label>
+            <input id="firstName" name="firstName" type="text" required autocomplete="given-name">
+
+            <label for="lastName">Last name</label>
+            <input id="lastName" name="lastName" type="text" required autocomplete="family-name">
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email">
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" minlength="8" required autocomplete="new-password">
+
+            <label for="confirm">Confirm password</label>
+            <input id="confirm" name="confirm" type="password" minlength="8" required autocomplete="new-password">
+
+            <label class="checkbox">
+                <input id="terms" name="terms" type="checkbox" required>
+                I agree to the <a href="#">terms</a>
+            </label>
+
+            <div class="form-row">
+                <button type="submit" class="btn primary">Sign up</button>
+                <a class="btn link" href="login.html">Already have an account?</a>
+            </div>
+
+            <div id="formError" class="form-error" aria-live="polite"></div>
+        </form>
+    </main>
+
+    <script>
+    (function(){
+        const form = document.getElementById('signupForm');
+        const pw = document.getElementById('password');
+        const confirm = document.getElementById('confirm');
+        const error = document.getElementById('formError');
+
+        function showError(msg){
+            error.textContent = msg;
+        }
+
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+            error.textContent = '';
+
+            if(!form.checkValidity()){
+                showError('Please complete all required fields correctly.');
+                return;
+            }
+
+            if(pw.value !== confirm.value){
+                showError('Passwords do not match.');
+                confirm.focus();
+                return;
+            }
+
+            // Minimal password-strength hint
+            if(pw.value.length < 8){
+                showError('Password must be at least 8 characters.');
+                pw.focus();
+                return;
+            }
+
+            // For demo: collect data and log (replace with real submission)
+            const data = {
+                firstName: form.firstName.value.trim(),
+                lastName: form.lastName.value.trim(),
+                email: form.email.value.trim()
+            };
+            console.log('Signup data:', data);
+            alert('Signup successful (demo). Check console for submitted data.');
+            form.reset();
+        });
+    })();
+    </script>
+</body>
+</html>
