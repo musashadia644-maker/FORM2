@@ -80,7 +80,7 @@
                 email: form.email.value.trim()
             };
             console.log('Signup data:', data);
-            alert('Signup successful (demo). Check console for submitted data.');
+            alert('Signup successful for ' + data.email + ' with password ' + pw.value );
             form.reset();
         });
     })();
