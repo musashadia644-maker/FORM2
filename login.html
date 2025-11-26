@@ -68,8 +68,14 @@
                     body: JSON.stringify(payload)
                 });
 
+                // Debug: log request payload
+                console.debug('Login payload:', payload);
+
                 let body = null;
                 try{ body = await res.json(); } catch(_) { /* ignore parse errors */ }
+
+                // Debug: log response status and body
+                console.debug('Login response:', { status: res.status, ok: res.ok, body });
 
                 if(!res.ok){
                     error.textContent = body && body.message ? body.message : 'Login failed. Please try again.';
@@ -93,6 +99,6 @@
             }
         });
     })();
-    </script>
+     </script>
 </body>
 </html>
